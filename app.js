@@ -92,4 +92,10 @@ app.post("/delete", function(req, res){                   //this is a call back.
                   }
                   }); 
 app.get("/about", function(req, res){res.render("about");});
-app.listen(3000, function() {console.log("Server started on port 3000");});
+
+let port = process.env.PORT;  //adding this from heroku site. This is herokus port. 
+if (port == null || port == "") { // if herokus port fails then we can set up our own
+    port = 3000; //your database is no longer being hosted locally but on mongoDB Atlas via AWS
+}
+
+app.listen(port, function() {console.log("Server has started successfully broh");});
