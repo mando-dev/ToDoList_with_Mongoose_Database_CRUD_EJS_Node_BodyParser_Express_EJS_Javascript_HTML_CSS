@@ -1,32 +1,31 @@
 <%- include("header") -%>
 
+
   <div class="box" id="heading">
     <h1> <%= listTitle %> </h1>
   </div>
 
   <div class="box">
-                
+        <% newListItems.forEach(function(item){   %>                                                                    <!-- Deletion! tapping into new list items array, the callback function is what allows us to tap into teach item in the array.   -->
+                    <form action="/delete" method="post">                                                                <!-- where is this form going to post is what we are addressing here, needing an action and a method.  if we need to send some data when the checkbox gets clicked, then we need a form and a post route -->
+                          <div class="item">                                                                             <!-- removing document from our items collection after its been checked off -->
+                            <input type="checkbox" name="checkbox" value="<%=item._id%>" onChange="this.form.submit()">  <!--this is the first time we name 'checkbox' and we then use it inside our delete route: 'req.body.checkbox'. newListItems corresponds to the foundItems in our app.js. This will submit to our delete route -->
+                            <p><%=  item.name  %></p>                                                                    <!-- we are tapping into. we not adding the entire doc but just the name field. this is why name field only displays at home page  -->
+                          </div>                                                                                         <!--this form is making a post request. We are binding the value of item ID unto its pertaingin checkbox -->
+                        <input type="hidden" name="listName" value="<%= listTitle %>"> </input>                          <!--The reason we are doing an input hidden is to hide from the user the listname. We are giving it a name so we can refer to it when looking at our request.body  We are giving the value of listTile that we already have access to (look above at h1)-->
+                    </form>                                                                                              <!--  this route deltes items. //each item being looped through has its ID as seen inside input tag . we need a way to access the above 'input' tag on our delete route -->
+                        <%  }); %>
 
-  <% newListItems.forEach(function(item){   %>   <!-- Deletion! tapping into new list items array, the callback function is what allows us to tap into teach item in the array.   -->
-     <form action="/delete" method="post">   <!-- where is this form going to post is what we are addressing here, needing an action and a method.  if we need to send some data when the checkbox gets clicked, then we need a form and a post route -->
-        <div class="item">    <!-- removing document from our items collection after its been checke off -->
-          <input type="checkbox" name="checkbox" value="<%=item._id%>" onChange="this.form.submit()">    <!--newListItems corresponds to the foundItems in our app.js. This will submit to our delete route   -->
-          <p><%=  item.name  %></p> <!-- we are tapping into. we not adding the entire doc but just the name field. this is why name field only displays at home page    -->
-        </div>  <!--   this form is making a post request. We are binding the value of item ID unto its pertaingin checkbox -->
-      
-        <input type="hidden" name="listName" value="<%= listTitle %>"> </input>   <!-- The reason we are doing an input hidden is to hide from the user the listname.We are giving it a name so we can refer to it when looking at our request.body  We are giving the value of listTile that we already have access to (look above at h1)-->
-      </form>     <!--  this route deltes items. //each item being looped through has its ID as seen inside input tag -->
-        <%  }); %>
 
-       <!-- we need a way to access the above 'input' tag on our delete route -->
-
-       <form class="item" action="/" method="post"> <!--this route was responsible for adding new items -->
-        <input type="text" name="newItem" placeholder="New Item" autocomplete="off"> <!--  the name attribute here is very important, it lets us tap into the newItem -->
-        <button type="submit" name="list" value="<%= listTitle %>">+</button>  <!-- we are adding this value tag so when user crates a new item it redirects to the current custom list and not the detault home route -->
-             </form>        <!--   whenever we submit our form we shoudl get access to 2 things 'newItem' and 'list' -->
+            <form class="item" action="/" method="post">                                                         <!--this route was responsible for adding new items -->
+                  <input type="text" name="newItem" placeholder="New Item" autocomplete="off">                   <!--the name attribute here is very important, it lets us tap into the newItem. adding new item to list button -->
+                  <button type="submit" name="list" value="<%= listTitle %>">+</button>                          <!-- we are adding this value tag so when user crates a new item it redirects to the current custom list and not the detault home route -->
+            </form>                                                                                              <!--whenever we submit our form we shoudl get access to 2 things 'newItem' and 'list' -->
   </div>
 
+
+
+
+
 <%- include("footer") -%>
-
-
-<!-- LO 6:29 need to checck back on ejs--> 
+ 
